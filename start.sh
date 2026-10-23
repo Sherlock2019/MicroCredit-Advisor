@@ -69,7 +69,7 @@ case "$CMD" in
   status) $COMPOSE ps; exit 0 ;;
   logs) $COMPOSE logs -f --tail=100; exit 0 ;;
   reset) read -r -p "Delete ALL demo data (database + uploaded files)? [y/N] " ok; [ "$ok" = y ] || exit 0
-         $COMPOSE down -v; rm -f data/demo-access-key.txt; say "Reset done. Run ./start.sh to start with fresh demo data."; exit 0 ;;
+         $COMPOSE down -v; say "Reset done. Run ./start.sh to start with fresh demo data."; exit 0 ;;
 esac
 
 command -v python3 >/dev/null || die "python3 is required to create .env"
@@ -82,12 +82,12 @@ if [ "$PUBLIC" = auto ]; then
   else PUBLIC=0; fi
 fi
 
+# Demo access key for public mode. Default: betterworld (it is in this public repo, so it only deters casual visitors).
+# Override per run: DEMO_ACCESS_KEY=something ./start.sh
+KEY="${DEMO_ACCESS_KEY:-betterworld}"
 export PORTAL_BIND=127.0.0.1 DEMO_ACCESS_KEY=""
 if [ "$PUBLIC" = 1 ]; then
-  mkdir -p data
-  [ -s data/demo-access-key.txt ] || python3 -c "import secrets;print(secrets.token_urlsafe(12))" > data/demo-access-key.txt
-  chmod 600 data/demo-access-key.txt
-  export PORTAL_BIND=0.0.0.0 DEMO_ACCESS_KEY="$(cat data/demo-access-key.txt)"
+  export PORTAL_BIND=0.0.0.0 DEMO_ACCESS_KEY="$KEY"
 fi
 if [ "$OLLAMA" = 1 ]; then
   export MODEL_PROVIDER=ollama
