@@ -20,23 +20,22 @@
   .big { display: flex; align-items: center; gap: 12px; width: 100%; padding: 14px; margin: 8px 0; border-radius: 14px; border: 2px solid var(--brand); background: #fff; font-size: 16px; font-weight: 600; color: var(--brand); }
   .big .ico { font-size: 26px; }
   .need { font-size: 13px; background: #fdf0dc; color: var(--warn); border-radius: 10px; padding: 8px 10px; }
-  .viewfinder { height: 250px; border-radius: 14px; background: linear-gradient(160deg, #6f9a5a, #3f6b3a 55%, #8a7a4a); position: relative; }
-  .viewfinder::after { content: ""; position: absolute; inset: 22px; border: 2px dashed rgba(255,255,255,.7); border-radius: 10px; }
-  .shutter { width: 64px; height: 64px; border-radius: 50%; border: 5px solid var(--brand); margin: 14px auto; background: #fff; }
+  .big img { width: 40px; height: 38px; border-radius: 6px; object-fit: cover; }
+  .big .label { flex: 1; text-align: center; }
+  .viewfinder { display: block; width: 100%; height: 250px; border-radius: 14px; object-fit: cover; }
+  .shutter { width: 70px; height: 70px; border-radius: 50%; border: 5px solid var(--brand); margin: 14px auto; background: #fff; }
   label { font-size: 13px; color: var(--muted); display: block; margin-top: 8px; }
   .field { border: 1px solid #ccd5d0; border-radius: 10px; padding: 10px; margin-top: 4px; }
   .toggle { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 14px; }
   .sw { width: 42px; height: 24px; border-radius: 12px; background: #ccd5d0; position: relative; }
   .sw::after { content: ""; position: absolute; width: 20px; height: 20px; border-radius: 50%; background: #fff; top: 2px; left: 2px; }
   .send { width: 100%; padding: 14px; border: 0; border-radius: 14px; background: var(--brand); color: #fff; font-size: 16px; font-weight: 700; margin-top: 14px; }
-  .doc { height: 190px; border-radius: 12px; background: #fafafa; border: 1px solid #ddd; padding: 14px; font-size: 10px; color: #999; }
-  .doc div { height: 7px; background: #e6e6e6; margin: 8px 0; border-radius: 3px; }
+  .doc { display: block; width: 100%; height: 272px; border-radius: 12px; object-fit: cover; border: 1px solid #ddd; }
   .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
   .chip { padding: 6px 10px; border-radius: 16px; border: 1px solid #ccd5d0; font-size: 13px; }
   .chip.on { background: var(--brand); color: #fff; border-color: var(--brand); }
   .item { display: flex; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
-  .thumb { width: 52px; height: 52px; border-radius: 8px; background: linear-gradient(160deg, #6f9a5a, #3f6b3a); flex: none; }
-  .thumb.d { background: #f1f1f1; border: 1px solid #ddd; }
+  .thumb { width: 54px; height: 54px; border-radius: 8px; object-fit: cover; flex: none; border: 1px solid #ddd; }
   .tag { font-size: 12px; padding: 2px 8px; border-radius: 10px; background: var(--soft); color: var(--brand); }
   .tag.w { background: #fdf0dc; color: var(--warn); }
   .tabbar { display: flex; justify-content: space-around; border-top: 1px solid #eee; padding: 8px 0 10px; font-size: 12px; color: var(--muted); }
@@ -55,9 +54,9 @@
     <div class="body">
       <div class="status"><b>More information needed</b>Your loan officer needs a few documents before the review.</div>
       <div class="need">Still needed: land use or tenancy document</div>
-      <button class="big"><span class="ico">📷</span>Add a photo of my crops</button>
-      <button class="big"><span class="ico">📄</span>Add a scanned document</button>
-      <button class="big"><span class="ico">🕑</span>What I have sent (4)</button>
+      <button class="big"><img src="mockup/icon-rice.jpg" alt=""><span class="label">Add a photo of my crops</span></button>
+      <button class="big"><span class="ico">📄</span><span class="label">Add a scanned document</span></button>
+      <button class="big"><span class="ico">🕒</span><span class="label">What I have sent (4)</span></button>
       <p style="font-size:12px;color:var(--muted)">Requested 12,000 USD · repay after the August and February harvests.</p>
     </div>
     <div class="tabbar"><span>🏠 Home</span><span>📤 Send</span><span>💬 Officer</span></div>
@@ -66,7 +65,7 @@
   <div><div class="phone">
     <div class="bar">Photo of my crops<small>Hold the phone steady</small></div>
     <div class="body">
-      <div class="viewfinder"></div>
+      <img class="viewfinder" src="mockup/rice-field.jpg" alt="Rice field seen through the phone camera">
       <div class="shutter"></div>
       <label>What does the photo show?</label>
       <div class="chips"><span class="chip on">Rice field</span><span class="chip">Harvest</span><span class="chip">Storage</span><span class="chip">Equipment</span></div>
@@ -78,7 +77,7 @@
   <div><div class="phone">
     <div class="bar">Scan a document<small>Place the page on a flat surface</small></div>
     <div class="body">
-      <div class="doc">LAND USE CONFIRMATION<div></div><div></div><div style="width:70%"></div><div></div><div style="width:50%"></div><div></div></div>
+      <img class="doc" src="mockup/land-letter.jpg" alt="Scanned land use confirmation letter (synthetic)">
       <label>Type of document</label>
       <div class="chips"><span class="chip">Sales receipt</span><span class="chip on">Land use / tenancy</span><span class="chip">Delivery record</span><span class="chip">Other</span></div>
       <label>Note for the loan officer (optional)</label>
@@ -91,10 +90,10 @@
   <div><div class="phone">
     <div class="bar">What I have sent<small>Your loan officer checks each item</small></div>
     <div class="body">
-      <div class="item"><div class="thumb d"></div><div>Land use letter<br><span class="tag w">Waiting for officer</span></div></div>
-      <div class="item"><div class="thumb"></div><div>Rice field, main season<br><span class="tag">Accepted</span></div></div>
-      <div class="item"><div class="thumb d"></div><div>Mill delivery receipts<br><span class="tag">Accepted</span></div></div>
-      <div class="item"><div class="thumb"></div><div>Storage shed<br><span class="tag w">Photo unclear — please retake</span></div></div>
+      <div class="item"><img class="thumb" src="mockup/thumb-letter.jpg" alt=""><div>Land use letter<br><span class="tag w">Waiting for officer</span></div></div>
+      <div class="item"><img class="thumb" src="mockup/thumb-rice.jpg" alt=""><div>Rice field, main season<br><span class="tag">Accepted</span></div></div>
+      <div class="item"><img class="thumb" src="mockup/thumb-receipts.jpg" alt=""><div>Mill delivery receipts<br><span class="tag">Accepted</span></div></div>
+      <div class="item"><img class="thumb" src="mockup/thumb-shed.jpg" alt=""><div>Storage shed<br><span class="tag w">Photo unclear — please retake</span></div></div>
       <p style="font-size:12px;color:var(--muted)">Photos are saved without hidden data such as GPS. Only your loan officer can see them.</p>
     </div>
     <div class="tabbar"><span>🏠 Home</span><span>📤 Send</span><span>💬 Officer</span></div>
