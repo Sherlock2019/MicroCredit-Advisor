@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # MicroCredit Advisor POC launcher — local machine, WSL or an AWS EC2 instance.
 #
-#   ./start.sh                  start (portal on http://127.0.0.1:8480)
-#   ./start.sh --public         expose the portal on 0.0.0.0:8480; demo sign-in needs a generated access key (EC2)
+#   ./start.sh                  start; on AWS EC2 the portal is served on the instance's public IP automatically
+#   ./start.sh --public         expose the portal on 0.0.0.0:8480 on any machine; demo sign-in needs an access key
+#   ./start.sh --local          keep the portal on 127.0.0.1 only, even on EC2
 #   ./start.sh --ollama         use local Ollama models instead of the deterministic mock model
 #   ./start.sh --install-docker install Docker first (Ubuntu or Amazon Linux 2023; uses sudo)
 #   ./start.sh stop | status | logs | reset
@@ -11,10 +12,11 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
-PUBLIC=0; OLLAMA=0; INSTALL=0; CMD=start
+PUBLIC=auto; OLLAMA=0; INSTALL=0; CMD=start
 for arg in "$@"; do
   case "$arg" in
     --public) PUBLIC=1 ;;
+    --local) PUBLIC=0 ;;
     --ollama) OLLAMA=1 ;;
     --install-docker) INSTALL=1 ;;
     stop|status|logs|reset) CMD=$arg ;;
@@ -25,6 +27,14 @@ done
 
 say() { printf '\033[1;32m==>\033[0m %s\n' "$*"; }
 die() { printf '\033[1;31mERROR:\033[0m %s\n' "$*" >&2; exit 1; }
+
+# EC2 instance metadata (IMDSv2). Prints the public IPv4, or nothing when not on EC2 / no public IP.
+ec2_public_ip() {
+  local token
+  token=$(curl -s -m 1 -X PUT http://169.254.169.254/latest/api/token -H "X-aws-ec2-metadata-token-ttl-seconds: 60" 2>/dev/null) || return 0
+  [ -n "$token" ] || return 0
+  curl -s -m 1 -f -H "X-aws-ec2-metadata-token: $token" http://169.254.169.254/latest/meta-data/public-ipv4 2>/dev/null || true
+}
 
 install_docker() {
   [ -r /etc/os-release ] || die "Cannot detect the OS; install Docker manually."
@@ -66,6 +76,12 @@ command -v python3 >/dev/null || die "python3 is required to create .env"
 command -v curl >/dev/null || die "curl is required"
 python3 scripts/make_env.py
 
+PUBLIC_IP=$(ec2_public_ip)
+if [ "$PUBLIC" = auto ]; then
+  if [ -n "$PUBLIC_IP" ]; then PUBLIC=1; say "AWS EC2 detected (public IP $PUBLIC_IP): serving the portal publicly. Use --local to keep it on 127.0.0.1."
+  else PUBLIC=0; fi
+fi
+
 export PORTAL_BIND=127.0.0.1 DEMO_ACCESS_KEY=""
 if [ "$PUBLIC" = 1 ]; then
   mkdir -p data
@@ -97,9 +113,7 @@ done
 
 HOST=127.0.0.1
 if [ "$PUBLIC" = 1 ]; then
-  TOKEN=$(curl -s -m 2 -X PUT http://169.254.169.254/latest/api/token -H "X-aws-ec2-metadata-token-ttl-seconds: 60" || true)
-  HOST=$(curl -s -m 2 -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/public-ipv4 || true)
-  HOST=${HOST:-$(hostname -I | awk '{print $1}')}
+  HOST=${PUBLIC_IP:-$(hostname -I | awk '{print $1}')}
 fi
 
 cat <<EOF

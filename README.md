@@ -34,10 +34,10 @@ Tested target: Ubuntu 24.04 or Amazon Linux 2023, **t3.medium** (2 vCPU, 4 GB) o
 
 ```bash
 ./start.sh --install-docker        # once: installs Docker + compose (uses sudo); log out/in if asked
-./start.sh --public                # serves the portal on 0.0.0.0:8480
+./start.sh                         # on EC2 it detects the instance and serves http://<public-ip>:8480
 ```
 
-- `--public` prints the instance's public URL and a **demo access key**. The portal asks for the key once before anyone can sign in to a demo account.
+- On EC2, `./start.sh` reads the public IP from instance metadata (IMDSv2), binds the portal on 0.0.0.0:8480, and prints the public URL plus a **demo access key**. The portal asks for the key once before anyone can sign in to a demo account. Use `--local` to keep it on 127.0.0.1, or `--public` to force public mode on any other machine.
 - In the EC2 security group, open TCP **8480 to your own IP only**. The API (8400) and PostgreSQL stay bound to localhost.
 - The script creates no AWS resources and costs nothing beyond the instance you already run.
 - Verify from the instance: `python3 scripts/smoke_test.py --demo-key <key>`.
