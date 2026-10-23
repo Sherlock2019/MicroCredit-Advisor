@@ -24,10 +24,7 @@ class Settings(BaseSettings):
     # Dev mode accepts HS256 tokens minted by /api/v1/dev/token. Never enable outside a trusted local machine.
     auth_dev_mode: bool = False
     auth_dev_jwt_secret: str = ""
-    auth_dev_issuer: str = "ifad-poc-dev-issuer"
-    # When set (public demos, e.g. on EC2), demo sign-in requires this key in the X-Demo-Key header.
-    demo_access_key: str = Field(default="", repr=False)
-    # Entra ID v2: issuer https://login.microsoftonline.com/<tenant-guid>/v2.0, audience api://<app-id> or the app id.
+    auth_dev_issuer: str = "ifad-poc-dev-issuer"    # Entra ID v2: issuer https://login.microsoftonline.com/<tenant-guid>/v2.0, audience api://<app-id> or the app id.
     oidc_issuer: str = ""
     oidc_jwks_url: str = ""
     oidc_audience: str = "api://ifad-rural-ai-platform"

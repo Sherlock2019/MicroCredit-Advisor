@@ -2,7 +2,7 @@
 # MicroCredit Advisor POC launcher — local machine, WSL or an AWS EC2 instance.
 #
 #   ./start.sh                  start; on AWS EC2 the portal is served on the instance's public IP automatically
-#   ./start.sh --public         expose the portal on 0.0.0.0:8480 on any machine; demo sign-in needs an access key
+#   ./start.sh --public         expose the portal on 0.0.0.0:8480 on any machine
 #   ./start.sh --local          keep the portal on 127.0.0.1 only, even on EC2
 #   ./start.sh --ollama         use local Ollama models instead of the deterministic mock model
 #   ./start.sh --install-docker install Docker first (Ubuntu or Amazon Linux 2023; uses sudo)
@@ -82,13 +82,8 @@ if [ "$PUBLIC" = auto ]; then
   else PUBLIC=0; fi
 fi
 
-# Demo access key for public mode. Default: betterworld (it is in this public repo, so it only deters casual visitors).
-# Override per run: DEMO_ACCESS_KEY=something ./start.sh
-KEY="${DEMO_ACCESS_KEY:-betterworld}"
-export PORTAL_BIND=127.0.0.1 DEMO_ACCESS_KEY=""
-if [ "$PUBLIC" = 1 ]; then
-  export PORTAL_BIND=0.0.0.0 DEMO_ACCESS_KEY="$KEY"
-fi
+export PORTAL_BIND=127.0.0.1
+[ "$PUBLIC" = 1 ] && export PORTAL_BIND=0.0.0.0
 if [ "$OLLAMA" = 1 ]; then
   export MODEL_PROVIDER=ollama
   say "Using Ollama at ${OLLAMA_BASE_URL:-http://host.docker.internal:11434} (model ${OLLAMA_CHAT_MODEL:-qwen2.5:7b}); embeddings stay on the offline hash model."
@@ -130,7 +125,7 @@ cat <<EOF
 EOF
 if [ "$PUBLIC" = 1 ]; then
   cat <<EOF
-  Public mode: the portal asks once for the demo access key:  ${DEMO_ACCESS_KEY}
+  Public mode: anyone who can reach port ${PORT} can use the demo accounts.
   Open TCP ${PORT} in the EC2 security group to YOUR IP only. Synthetic data only; do not enter real borrower data.
 EOF
 fi

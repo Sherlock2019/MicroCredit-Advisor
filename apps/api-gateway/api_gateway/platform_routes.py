@@ -1,7 +1,6 @@
 """Platform API hosted by the gateway: capabilities, operations status, knowledge, evaluations, audit, identities."""
 from __future__ import annotations
 
-import hmac
 import uuid
 from datetime import date
 from typing import Literal
@@ -246,25 +245,21 @@ class DevTokenRequest(Strict):
     username: str = Field(max_length=60)
 
 
-def _check_demo_key(request: Request) -> None:
-    s = get_settings()
-    if not s.auth_dev_mode:
+def _require_dev_mode() -> None:
+    if not get_settings().auth_dev_mode:
         raise HTTPException(404, "Not found")
-    given = request.headers.get("X-Demo-Key", "")
-    if s.demo_access_key and not hmac.compare_digest(given.encode(), s.demo_access_key.encode()):
-        raise HTTPException(401, "Demo access key required")
 
 
 @router.get("/dev/users", tags=["dev-only"], summary="Demo accounts (AUTH_DEV_MODE only)")
-def dev_users(request: Request):
-    _check_demo_key(request)
+def dev_users():
+    _require_dev_mode()
     return {"warning": "Development identities. Disabled outside AUTH_DEV_MODE.",
             "users": [{"username": u, **{k: v for k, v in d.items()}} for u, d in DEV_USERS.items()]}
 
 
 @router.post("/dev/token", tags=["dev-only"], summary="Mint a dev token for a demo account (AUTH_DEV_MODE only)")
-def dev_token(body: DevTokenRequest, request: Request):
-    _check_demo_key(request)
+def dev_token(body: DevTokenRequest):
+    _require_dev_mode()
     user = DEV_USERS.get(body.username)
     if user is None:
         raise HTTPException(404, "Unknown demo user")

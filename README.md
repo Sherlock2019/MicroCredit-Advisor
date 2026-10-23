@@ -37,10 +37,10 @@ Tested target: Ubuntu 24.04 or Amazon Linux 2023, **t3.medium** (2 vCPU, 4 GB) o
 ./start.sh                         # on EC2 it detects the instance and serves http://<public-ip>:8480
 ```
 
-- On EC2, `./start.sh` reads the public IP from instance metadata (IMDSv2), binds the portal on 0.0.0.0:8480, and prints the public URL. The portal asks once for the **demo access key: `betterworld`** before anyone can sign in to a demo account. Because this repo is public, the key only deters casual visitors; set your own with `DEMO_ACCESS_KEY=yourkey ./start.sh`. Use `--local` to keep it on 127.0.0.1, or `--public` to force public mode on any other machine.
+- On EC2, `./start.sh` reads the public IP from instance metadata (IMDSv2), binds the portal on 0.0.0.0:8480, and prints the public URL. There is no password: anyone who can reach port 8480 can use the demo accounts, so the security group is the access control. Use `--local` to keep it on 127.0.0.1, or `--public` to force public mode on any other machine.
 - In the EC2 security group, open TCP **8480 to your own IP only**. The API (8400) and PostgreSQL stay bound to localhost.
 - The script creates no AWS resources and costs nothing beyond the instance you already run.
-- Verify from the instance: `python3 scripts/smoke_test.py --demo-key <key>`.
+- Verify from the instance: `python3 scripts/smoke_test.py`.
 
 ## Demo walkthrough (about 10 minutes)
 

@@ -1,6 +1,6 @@
 """Smoke test against a running stack, through the portal's /api proxy. Standard library only, so it runs on a bare EC2.
 
-    python3 scripts/smoke_test.py [--url http://127.0.0.1:8480] [--demo-key KEY]
+    python3 scripts/smoke_test.py [--url http://127.0.0.1:8480]
 """
 from __future__ import annotations
 
@@ -14,14 +14,11 @@ import urllib.request
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--url", default="http://127.0.0.1:8480")
-    ap.add_argument("--demo-key", default="")
     a = ap.parse_args()
     results = []
 
     def call(method, path, body=None, token=None):
         headers = {"Content-Type": "application/json"}
-        if a.demo_key:
-            headers["X-Demo-Key"] = a.demo_key
         if token:
             headers["Authorization"] = f"Bearer {token}"
         req = urllib.request.Request(a.url + path, data=json.dumps(body).encode() if body is not None else None,  # noqa: S310

@@ -16,7 +16,6 @@
   async function api(path, { method = 'GET', body, form } = {}) {
     const headers = { Accept: 'application/json' };
     if (state.token) headers.Authorization = `Bearer ${state.token}`;
-    if (path.startsWith('/dev/') && store.get('demoKey')) headers['X-Demo-Key'] = store.get('demoKey');
     let payload;
     if (form) payload = form; else if (body !== undefined) { headers['Content-Type'] = 'application/json'; payload = JSON.stringify(body); }
     const res = await fetch(`/api/v1${path}`, { method, headers, body: payload });
@@ -39,18 +38,11 @@
   }
   async function initUsers() {
     const sel = document.getElementById('userSelect');
-    for (let attempt = 0; ; attempt += 1) {
-      try {
-        state.users = (await api('/dev/users')).users;
-        break;
-      } catch (e) {
-        if (e.status === 401 && attempt < 3) {
-          const key = window.prompt('This demo is protected. Enter the demo access key printed by start.sh:');
-          if (key) { store.set('demoKey', key.trim()); continue; }
-        }
-        sel.outerHTML = '<span class="small">Sign-in not available</span>';
-        return;
-      }
+    try {
+      state.users = (await api('/dev/users')).users;
+    } catch {
+      sel.outerHTML = '<span class="small">Sign-in not available</span>';
+      return;
     }
     sel.innerHTML = state.users.map((u) => `<option value="${esc(u.username)}">${esc(u.name)}</option>`).join('');
     const initial = store.get('demoUser') || 'fatima.finance';
