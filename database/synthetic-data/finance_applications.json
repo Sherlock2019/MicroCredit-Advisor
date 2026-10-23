@@ -1,0 +1,233 @@
+{
+  "notice": "SYNTHETIC. Every borrower, cooperative, figure and document here is fictional. Place names are real geography used only to position records on the demo map; coordinates are approximate regional centroids.",
+  "applications": [
+    {
+      "key": "demo-a-rice-coop",
+      "scenario": "Demo A: Farmer Cooperative A (rice). Manageable seasonal repayment at baseline; thin under -20% yield or -15% price; shortfall under both together.",
+      "tenant": "tenant-demo-a",
+      "created_by": "fatima.finance",
+      "target_status": "SUBMITTED",
+      "payload": {
+        "borrower_pseudonym": "COOP-A0001",
+        "borrower_type": "farmer_cooperative",
+        "group_name": "Farmer Cooperative A (fictional)",
+        "country": "Kenya", "region": "Kirinyaga", "locality": "Mwea irrigation area",
+        "latitude": -0.69, "longitude": 37.36,
+        "currency": "USD", "cultivated_area_ha": 10,
+        "loan_purpose": "Seasonal working capital for two rice seasons and a small shared thresher",
+        "requested_amount": 12000, "annual_interest_rate_pct": 14, "term_months": 12, "start_month": "2026-03-01",
+        "repayment_type": "seasonal_installments", "repayment_months": [6, 12],
+        "crops": [
+          {"crop": "rice (main season)", "area_ha": 10, "expected_yield_t_per_ha": 4.0, "yield_basis": "historical", "price_per_t": 400, "harvest_month": 6},
+          {"crop": "rice (dry season)", "area_ha": 5, "expected_yield_t_per_ha": 3.0, "yield_basis": "projected", "price_per_t": 400, "harvest_month": 12}
+        ],
+        "costs": [
+          {"category": "land preparation and certified seed", "kind": "production", "amount": 3500, "month": 1},
+          {"category": "small shared thresher", "kind": "investment", "amount": 3000, "month": 2},
+          {"category": "fertilizer", "kind": "production", "amount": 2000, "month": 2},
+          {"category": "transplanting labour", "kind": "production", "amount": 1000, "month": 3},
+          {"category": "dry-season inputs", "kind": "production", "amount": 1500, "month": 7},
+          {"category": "dry-season labour", "kind": "production", "amount": 1000, "month": 8}
+        ],
+        "other_monthly_income": 0, "operating_expenses_monthly": 150, "existing_obligations_monthly": 200,
+        "opening_cash_balance": 1500, "declared_annual_revenue": 22000, "declared_production_costs": 9000
+      },
+      "documents": [
+        {"file": "finance/demo-a/business_plan.md", "document_type": "farm_business_plan", "as_pdf": true},
+        {"file": "finance/demo-a/delivery_records.md", "document_type": "yield_or_sales_evidence"},
+        {"file": "finance/demo-a/input_quotation.md", "document_type": "input_quotation"}
+      ]
+    },
+    {
+      "key": "case-liquidity-gap",
+      "scenario": "A7 case 2: smallholder with a short-term liquidity gap before harvest (equal monthly repayments start before the maize harvest).",
+      "tenant": "tenant-demo-a",
+      "created_by": "fatima.finance",
+      "target_status": "ANALYZED",
+      "payload": {
+        "borrower_pseudonym": "BRW-MW0412",
+        "borrower_type": "smallholder_individual",
+        "country": "Malawi", "region": "Central Region", "locality": "Kasungu",
+        "latitude": -13.03, "longitude": 33.48,
+        "currency": "USD", "cultivated_area_ha": 2.5,
+        "loan_purpose": "Maize and bean inputs for the rainy season",
+        "requested_amount": 1500, "annual_interest_rate_pct": 18, "term_months": 10, "start_month": "2026-11-01",
+        "repayment_type": "equal_monthly", "repayment_months": [],
+        "crops": [
+          {"crop": "maize", "area_ha": 2.0, "expected_yield_t_per_ha": 3.2, "yield_basis": "historical", "price_per_t": 280, "harvest_month": 6},
+          {"crop": "beans", "area_ha": 0.5, "expected_yield_t_per_ha": 1.0, "yield_basis": "projected", "price_per_t": 900, "harvest_month": 7}
+        ],
+        "costs": [
+          {"category": "seed and basal fertilizer", "kind": "production", "amount": 600, "month": 1},
+          {"category": "top-dress fertilizer", "kind": "production", "amount": 250, "month": 2},
+          {"category": "weeding labour", "kind": "production", "amount": 150, "month": 3}
+        ],
+        "other_monthly_income": 60, "operating_expenses_monthly": 120, "existing_obligations_monthly": 0,
+        "opening_cash_balance": 150, "declared_annual_revenue": 2300, "declared_production_costs": 1000
+      },
+      "documents": [
+        {"file": "finance/liquidity-gap/farm_plan.md", "document_type": "farm_business_plan"},
+        {"file": "finance/liquidity-gap/sales_receipts.md", "document_type": "yield_or_sales_evidence"},
+        {"file": "finance/liquidity-gap/land_letter.md", "document_type": "land_use_evidence"}
+      ]
+    },
+    {
+      "key": "case-missing-evidence",
+      "scenario": "A7 case 3: missing income evidence and a delayed coffee harvest against a bullet repayment.",
+      "tenant": "tenant-demo-a",
+      "created_by": "fatima.finance",
+      "target_status": "ANALYZED",
+      "payload": {
+        "borrower_pseudonym": "BRW-UG7731",
+        "borrower_type": "smallholder_individual",
+        "country": "Uganda", "region": "Eastern Region", "locality": "Mbale (Bugisu)",
+        "latitude": 1.08, "longitude": 34.18,
+        "currency": "USD", "cultivated_area_ha": 1.2,
+        "loan_purpose": "Coffee rehabilitation inputs and harvest labour",
+        "requested_amount": 2000, "annual_interest_rate_pct": 16, "term_months": 9, "start_month": "2026-04-01",
+        "repayment_type": "bullet", "repayment_months": [],
+        "crops": [
+          {"crop": "arabica coffee (parchment)", "area_ha": 1.2, "expected_yield_t_per_ha": 0.9, "yield_basis": "projected", "price_per_t": 3200, "harvest_month": 8}
+        ],
+        "costs": [
+          {"category": "pruning and organic inputs", "kind": "production", "amount": 500, "month": 1},
+          {"category": "pest management", "kind": "production", "amount": 300, "month": 3},
+          {"category": "harvest labour", "kind": "production", "amount": 400, "month": 8}
+        ],
+        "other_monthly_income": 40, "operating_expenses_monthly": 90, "existing_obligations_monthly": 50,
+        "opening_cash_balance": 200, "declared_annual_revenue": 4800, "declared_production_costs": 1200
+      },
+      "documents": [
+        {"file": "finance/missing-evidence/business_plan.md", "document_type": "farm_business_plan"}
+      ]
+    },
+    {
+      "key": "nepal-vegetables",
+      "scenario": "Vegetable producer group, analysed, no flags of high severity.",
+      "tenant": "tenant-demo-a", "created_by": "fatima.finance", "target_status": "ANALYZED",
+      "payload": {
+        "borrower_pseudonym": "GRP-NP0203", "borrower_type": "farmer_group", "group_name": "Vegetable Producer Group N (fictional)",
+        "country": "Nepal", "region": "Bagmati", "locality": "Chitwan", "latitude": 27.58, "longitude": 84.5,
+        "currency": "USD", "cultivated_area_ha": 3, "loan_purpose": "Drip kits and seedlings for winter vegetables",
+        "requested_amount": 4000, "annual_interest_rate_pct": 12, "term_months": 8, "start_month": "2026-10-01",
+        "repayment_type": "seasonal_installments", "repayment_months": [4, 8],
+        "crops": [
+          {"crop": "tomato", "area_ha": 1.5, "expected_yield_t_per_ha": 18, "yield_basis": "historical", "price_per_t": 220, "harvest_month": 4},
+          {"crop": "cauliflower", "area_ha": 1.5, "expected_yield_t_per_ha": 14, "yield_basis": "historical", "price_per_t": 180, "harvest_month": 7}
+        ],
+        "costs": [
+          {"category": "drip kits", "kind": "investment", "amount": 1800, "month": 1},
+          {"category": "seedlings and inputs", "kind": "production", "amount": 1700, "month": 1},
+          {"category": "labour", "kind": "production", "amount": 900, "month": 3}
+        ],
+        "other_monthly_income": 0, "operating_expenses_monthly": 80, "existing_obligations_monthly": 0, "opening_cash_balance": 600,
+        "declared_annual_revenue": 10500, "declared_production_costs": 2600
+      },
+      "documents": [
+        {"file": "finance/nepal-vegetables/group_plan.md", "document_type": "farm_business_plan"},
+        {"file": "finance/nepal-vegetables/market_records.md", "document_type": "yield_or_sales_evidence"},
+        {"file": "finance/nepal-vegetables/lease.md", "document_type": "land_use_evidence"}
+      ]
+    },
+    {
+      "key": "bangladesh-rice-potato",
+      "scenario": "Rice and potato smallholder, analysed and submitted for human review.",
+      "tenant": "tenant-demo-a", "created_by": "fatima.finance", "target_status": "IN_REVIEW",
+      "payload": {
+        "borrower_pseudonym": "BRW-BD5520", "borrower_type": "smallholder_individual",
+        "country": "Bangladesh", "region": "Rangpur Division", "locality": "Rangpur", "latitude": 25.75, "longitude": 89.25,
+        "currency": "USD", "cultivated_area_ha": 1.6, "loan_purpose": "Boro rice and potato inputs",
+        "requested_amount": 1800, "annual_interest_rate_pct": 15, "term_months": 7, "start_month": "2026-11-01",
+        "repayment_type": "seasonal_installments", "repayment_months": [4, 7],
+        "crops": [
+          {"crop": "potato", "area_ha": 0.6, "expected_yield_t_per_ha": 20, "yield_basis": "historical", "price_per_t": 160, "harvest_month": 4},
+          {"crop": "boro rice", "area_ha": 1.0, "expected_yield_t_per_ha": 5.5, "yield_basis": "historical", "price_per_t": 330, "harvest_month": 7}
+        ],
+        "costs": [
+          {"category": "potato seed and fertilizer", "kind": "production", "amount": 750, "month": 1},
+          {"category": "rice seedlings and irrigation", "kind": "production", "amount": 600, "month": 3},
+          {"category": "harvest labour", "kind": "production", "amount": 300, "month": 6}
+        ],
+        "other_monthly_income": 50, "operating_expenses_monthly": 110, "existing_obligations_monthly": 40, "opening_cash_balance": 250,
+        "declared_annual_revenue": 3700, "declared_production_costs": 1650
+      },
+      "documents": [
+        {"file": "finance/bangladesh/farm_plan.md", "document_type": "farm_business_plan"},
+        {"file": "finance/bangladesh/sales_slips.md", "document_type": "yield_or_sales_evidence"},
+        {"file": "finance/bangladesh/land_record.md", "document_type": "land_use_evidence"}
+      ]
+    },
+    {
+      "key": "senegal-groundnut",
+      "scenario": "Groundnut cooperative with a recorded human approval (seeded history).",
+      "tenant": "tenant-demo-a", "created_by": "fatima.finance", "target_status": "APPROVED",
+      "payload": {
+        "borrower_pseudonym": "COOP-SN0090", "borrower_type": "farmer_cooperative", "group_name": "Groundnut Cooperative S (fictional)",
+        "country": "Senegal", "region": "Kaolack", "locality": "Kaolack", "latitude": 14.15, "longitude": -16.07,
+        "currency": "USD", "cultivated_area_ha": 40, "loan_purpose": "Certified groundnut seed and decorticator maintenance",
+        "requested_amount": 9000, "annual_interest_rate_pct": 13, "term_months": 8, "start_month": "2026-06-01",
+        "repayment_type": "bullet", "repayment_months": [],
+        "crops": [
+          {"crop": "groundnut", "area_ha": 40, "expected_yield_t_per_ha": 1.1, "yield_basis": "historical", "price_per_t": 450, "harvest_month": 6}
+        ],
+        "costs": [
+          {"category": "certified seed", "kind": "production", "amount": 5200, "month": 1},
+          {"category": "decorticator maintenance", "kind": "investment", "amount": 900, "month": 2},
+          {"category": "harvest and bagging", "kind": "production", "amount": 2400, "month": 6}
+        ],
+        "other_monthly_income": 0, "operating_expenses_monthly": 200, "existing_obligations_monthly": 0, "opening_cash_balance": 1200,
+        "declared_annual_revenue": 19800, "declared_production_costs": 7600
+      },
+      "documents": [
+        {"file": "finance/senegal/coop_plan.md", "document_type": "farm_business_plan"},
+        {"file": "finance/senegal/delivery_history.md", "document_type": "yield_or_sales_evidence"},
+        {"file": "finance/senegal/land_use.md", "document_type": "land_use_evidence"}
+      ]
+    },
+    {
+      "key": "guatemala-coffee",
+      "scenario": "Coffee cooperative returned for more information by the reviewer.",
+      "tenant": "tenant-demo-a", "created_by": "fatima.finance", "target_status": "NEEDS_INFORMATION",
+      "payload": {
+        "borrower_pseudonym": "COOP-GT0311", "borrower_type": "farmer_cooperative", "group_name": "Highland Coffee Cooperative H (fictional)",
+        "country": "Guatemala", "region": "Huehuetenango", "locality": "Huehuetenango", "latitude": 15.32, "longitude": -91.47,
+        "currency": "USD", "cultivated_area_ha": 25, "loan_purpose": "Harvest finance and wet-mill repairs",
+        "requested_amount": 15000, "annual_interest_rate_pct": 14, "term_months": 10, "start_month": "2026-09-01",
+        "repayment_type": "seasonal_installments", "repayment_months": [6, 10],
+        "crops": [
+          {"crop": "arabica coffee (parchment)", "area_ha": 25, "expected_yield_t_per_ha": 1.0, "yield_basis": "projected", "price_per_t": 3600, "harvest_month": 5}
+        ],
+        "costs": [
+          {"category": "harvest labour advances", "kind": "production", "amount": 9000, "month": 3},
+          {"category": "wet-mill repairs", "kind": "investment", "amount": 4000, "month": 1},
+          {"category": "transport to buyer", "kind": "production", "amount": 2500, "month": 5}
+        ],
+        "other_monthly_income": 0, "operating_expenses_monthly": 400, "existing_obligations_monthly": 600, "opening_cash_balance": 2000,
+        "declared_annual_revenue": 98000, "declared_production_costs": 11500
+      },
+      "documents": [
+        {"file": "finance/guatemala/coop_plan.md", "document_type": "farm_business_plan"}
+      ]
+    },
+    {
+      "key": "tenant-b-madagascar-rice",
+      "scenario": "Partner organisation B (second tenant): used to prove cross-tenant isolation.",
+      "tenant": "tenant-demo-b", "created_by": "bea.tenantb", "target_status": "DRAFT",
+      "payload": {
+        "borrower_pseudonym": "BRW-MG3001", "borrower_type": "smallholder_individual",
+        "country": "Madagascar", "region": "Alaotra-Mangoro", "locality": "Ambatondrazaka", "latitude": -17.83, "longitude": 48.42,
+        "currency": "USD", "cultivated_area_ha": 1.5, "loan_purpose": "Rice inputs (tenant B record)",
+        "requested_amount": 900, "annual_interest_rate_pct": 20, "term_months": 6, "start_month": "2026-12-01",
+        "repayment_type": "bullet", "repayment_months": [],
+        "crops": [
+          {"crop": "rice", "area_ha": 1.5, "expected_yield_t_per_ha": 3.4, "yield_basis": "historical", "price_per_t": 300, "harvest_month": 5}
+        ],
+        "costs": [{"category": "inputs", "kind": "production", "amount": 650, "month": 1}],
+        "other_monthly_income": 30, "operating_expenses_monthly": 70, "existing_obligations_monthly": 0, "opening_cash_balance": 100
+      },
+      "documents": [
+        {"file": "finance/tenant-b/plan.md", "document_type": "farm_business_plan"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+data/
+node_modules/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.tfstate
+*.tfstate.*
+.terraform/
+*.tfplan
+reports/tmp/

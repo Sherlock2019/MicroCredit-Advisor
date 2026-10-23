@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MicroCredit Advisor</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#/">MicroCredit Advisor <span class="tag">POC</span></a>
+    <nav id="nav">
+      <a href="#/">Home</a>
+      <a href="#/finance">Loan officer</a>
+      <a href="#/projects">Projects</a>
+      <a href="#/map">Map</a>
+      <a href="#/ops">Operations</a>
+      <a href="farmer-mockup.html" target="_blank" rel="noopener">Farmer app (mockup)</a>
+    </nav>
+    <div class="user">
+      <select id="userSelect" aria-label="Demo account"></select>
+    </div>
+  </header>
+  <div class="banner">Independent demonstration themed on rural development. Not commissioned, endorsed or deployed by IFAD.
+    All borrowers, projects and figures are <strong>synthetic</strong>. AI output is advisory; decisions are recorded by people.</div>
+  <main id="app"><p class="muted">Loading…</p></main>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="app.js"></script>
+</body>
+</html>

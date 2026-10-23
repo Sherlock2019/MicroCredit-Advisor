@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Farmer App Mockup</title>
+<style>
+  :root { --brand: #2f6b4f; --soft: #e3efe8; --ink: #1d2a24; --muted: #66736c; --warn: #a15c00; }
+  body { margin: 0; font: 15px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; background: #eef1ef; color: var(--ink); }
+  header { padding: 14px 16px; background: #fff7e0; border-bottom: 1px solid #f0dfa8; font-size: 14px; }
+  h1 { font-size: 20px; margin: 16px; }
+  .phones { display: flex; flex-wrap: wrap; gap: 24px; padding: 0 16px 32px; justify-content: center; }
+  .phone { width: 300px; height: 610px; background: #fff; border: 10px solid #1d2a24; border-radius: 34px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+  .cap { text-align: center; font-size: 13px; color: var(--muted); margin-top: 8px; }
+  .bar { background: var(--brand); color: #fff; padding: 14px 16px 12px; font-weight: 700; }
+  .bar small { display: block; font-weight: 400; opacity: .85; }
+  .body { padding: 14px; flex: 1; overflow: hidden; }
+  .status { background: var(--soft); border-radius: 12px; padding: 12px; margin-bottom: 12px; }
+  .status b { display: block; font-size: 17px; }
+  .big { display: flex; align-items: center; gap: 12px; width: 100%; padding: 14px; margin: 8px 0; border-radius: 14px; border: 2px solid var(--brand); background: #fff; font-size: 16px; font-weight: 600; color: var(--brand); }
+  .big .ico { font-size: 26px; }
+  .need { font-size: 13px; background: #fdf0dc; color: var(--warn); border-radius: 10px; padding: 8px 10px; }
+  .viewfinder { height: 250px; border-radius: 14px; background: linear-gradient(160deg, #6f9a5a, #3f6b3a 55%, #8a7a4a); position: relative; }
+  .viewfinder::after { content: ""; position: absolute; inset: 22px; border: 2px dashed rgba(255,255,255,.7); border-radius: 10px; }
+  .shutter { width: 64px; height: 64px; border-radius: 50%; border: 5px solid var(--brand); margin: 14px auto; background: #fff; }
+  label { font-size: 13px; color: var(--muted); display: block; margin-top: 8px; }
+  .field { border: 1px solid #ccd5d0; border-radius: 10px; padding: 10px; margin-top: 4px; }
+  .toggle { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 14px; }
+  .sw { width: 42px; height: 24px; border-radius: 12px; background: #ccd5d0; position: relative; }
+  .sw::after { content: ""; position: absolute; width: 20px; height: 20px; border-radius: 50%; background: #fff; top: 2px; left: 2px; }
+  .send { width: 100%; padding: 14px; border: 0; border-radius: 14px; background: var(--brand); color: #fff; font-size: 16px; font-weight: 700; margin-top: 14px; }
+  .doc { height: 190px; border-radius: 12px; background: #fafafa; border: 1px solid #ddd; padding: 14px; font-size: 10px; color: #999; }
+  .doc div { height: 7px; background: #e6e6e6; margin: 8px 0; border-radius: 3px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .chip { padding: 6px 10px; border-radius: 16px; border: 1px solid #ccd5d0; font-size: 13px; }
+  .chip.on { background: var(--brand); color: #fff; border-color: var(--brand); }
+  .item { display: flex; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
+  .thumb { width: 52px; height: 52px; border-radius: 8px; background: linear-gradient(160deg, #6f9a5a, #3f6b3a); flex: none; }
+  .thumb.d { background: #f1f1f1; border: 1px solid #ddd; }
+  .tag { font-size: 12px; padding: 2px 8px; border-radius: 10px; background: var(--soft); color: var(--brand); }
+  .tag.w { background: #fdf0dc; color: var(--warn); }
+  .tabbar { display: flex; justify-content: space-around; border-top: 1px solid #eee; padding: 8px 0 10px; font-size: 12px; color: var(--muted); }
+  .notes { max-width: 900px; margin: 0 auto 40px; padding: 0 16px; font-size: 14px; }
+</style>
+</head>
+<body>
+<header><strong>DESIGN MOCKUP — not a working app.</strong> These screens are static and do not send data anywhere.
+  They show how a borrower could add crop photos and scanned documents for their loan officer. All names and figures are synthetic.
+  <a href="index.html">Back to the portal</a></header>
+<h1>Farmer mobile app: concept screens</h1>
+<div class="phones">
+
+  <div><div class="phone">
+    <div class="bar">My loan<small>Farmer Cooperative A · RF-2026-…</small></div>
+    <div class="body">
+      <div class="status"><b>More information needed</b>Your loan officer needs a few documents before the review.</div>
+      <div class="need">Still needed: land use or tenancy document</div>
+      <button class="big"><span class="ico">📷</span>Add a photo of my crops</button>
+      <button class="big"><span class="ico">📄</span>Add a scanned document</button>
+      <button class="big"><span class="ico">🕑</span>What I have sent (4)</button>
+      <p style="font-size:12px;color:var(--muted)">Requested 12,000 USD · repay after the August and February harvests.</p>
+    </div>
+    <div class="tabbar"><span>🏠 Home</span><span>📤 Send</span><span>💬 Officer</span></div>
+  </div><div class="cap">1 · Home: status in plain language and what is still needed</div></div>
+
+  <div><div class="phone">
+    <div class="bar">Photo of my crops<small>Hold the phone steady</small></div>
+    <div class="body">
+      <div class="viewfinder"></div>
+      <div class="shutter"></div>
+      <label>What does the photo show?</label>
+      <div class="chips"><span class="chip on">Rice field</span><span class="chip">Harvest</span><span class="chip">Storage</span><span class="chip">Equipment</span></div>
+      <div class="toggle">Share approximate location <span class="sw"></span></div>
+    </div>
+    <div class="tabbar"><span>🏠 Home</span><span>📤 Send</span><span>💬 Officer</span></div>
+  </div><div class="cap">2 · Camera capture; location is opt-in and approximate</div></div>
+
+  <div><div class="phone">
+    <div class="bar">Scan a document<small>Place the page on a flat surface</small></div>
+    <div class="body">
+      <div class="doc">LAND USE CONFIRMATION<div></div><div></div><div style="width:70%"></div><div></div><div style="width:50%"></div><div></div></div>
+      <label>Type of document</label>
+      <div class="chips"><span class="chip">Sales receipt</span><span class="chip on">Land use / tenancy</span><span class="chip">Delivery record</span><span class="chip">Other</span></div>
+      <label>Note for the loan officer (optional)</label>
+      <div class="field">Letter from the village land committee</div>
+      <button class="send">Send to my loan officer</button>
+    </div>
+    <div class="tabbar"><span>🏠 Home</span><span>📤 Send</span><span>💬 Officer</span></div>
+  </div><div class="cap">3 · Document scan with a simple type picker</div></div>
+
+  <div><div class="phone">
+    <div class="bar">What I have sent<small>Your loan officer checks each item</small></div>
+    <div class="body">
+      <div class="item"><div class="thumb d"></div><div>Land use letter<br><span class="tag w">Waiting for officer</span></div></div>
+      <div class="item"><div class="thumb"></div><div>Rice field, main season<br><span class="tag">Accepted</span></div></div>
+      <div class="item"><div class="thumb d"></div><div>Mill delivery receipts<br><span class="tag">Accepted</span></div></div>
+      <div class="item"><div class="thumb"></div><div>Storage shed<br><span class="tag w">Photo unclear — please retake</span></div></div>
+      <p style="font-size:12px;color:var(--muted)">Photos are saved without hidden data such as GPS. Only your loan officer can see them.</p>
+    </div>
+    <div class="tabbar"><span>🏠 Home</span><span>📤 Send</span><span>💬 Officer</span></div>
+  </div><div class="cap">4 · Upload history with the officer's review status</div></div>
+</div>
+
+<div class="notes">
+  <h2>How this would connect (not built in this POC)</h2>
+  <ul>
+    <li>Borrowers would sign in with a farmer role bound to their pseudonymous borrower ID, so each person sees only their own application.</li>
+    <li>Scans would go through the same document ingestion and citation pipeline the loan officer already uses; photos would be stored as visual evidence.</li>
+    <li>Images would be re-encoded to remove metadata, and location would be stored only with consent and rounded to about 1 km.</li>
+    <li>The loan officer workspace would show these items under <em>Evidence &amp; questions</em>, where the officer marks each one accepted or asks for a retake.</li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ifad-rural-ai-platform-poc"
+version = "0.1.0"
+description = "Independent IFAD-themed demonstration: Rural Finance and Project Monitoring copilots on one shared AI platform. Not commissioned or endorsed by IFAD."
+requires-python = ">=3.12,<3.14"
+dependencies = [
+  "fastapi>=0.115,<1",
+  "uvicorn[standard]>=0.30,<1",
+  "pydantic>=2.9,<3",
+  "pydantic-settings>=2.5,<3",
+  "sqlalchemy>=2.0.36,<2.1",
+  "alembic>=1.14,<2",
+  "psycopg[binary]>=3.2,<4",
+  "pgvector>=0.3.6,<1",
+  "httpx>=0.27,<1",
+  "pyjwt[crypto]>=2.10,<3",
+  "python-multipart>=0.0.18,<1",
+  "pymupdf>=1.25,<2",
+  "numpy>=1.26,<3",
+  "scikit-learn>=1.5,<2",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.3,<10", "ruff>=0.7,<1", "mypy>=1.13,<2", "pip-audit>=2.7,<3"]
+azure = ["azure-identity>=1.19,<2", "azure-storage-blob>=12.24,<13"]
+
+[tool.hatch.build.targets.wheel]
+packages = [
+  "packages/common/ifad_common",
+  "packages/audit/ifad_audit",
+  "packages/document-ingestion/ifad_ingestion",
+  "packages/rag/ifad_rag",
+  "packages/model-gateway/ifad_models",
+  "packages/evaluation/ifad_eval",
+  "packages/human-review/ifad_review",
+  "integrations/creditpappraisal-adapter/ifad_credit_adapter",
+  "integrations/supplychain-adapter/ifad_supplychain_adapter",
+  "apps/api-gateway/api_gateway",
+  "apps/rural-finance/rural_finance",
+  "apps/project-impact/project_impact",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q -p no:cacheprovider"
+pythonpath = [
+  "packages/common", "packages/audit", "packages/document-ingestion", "packages/rag",
+  "packages/model-gateway", "packages/evaluation", "packages/human-review",
+  "integrations/creditpappraisal-adapter", "integrations/supplychain-adapter",
+  "apps/api-gateway", "apps/rural-finance", "apps/project-impact", ".",
+]
+markers = [
+  "integration: needs the PostgreSQL/pgvector database (make db-up)",
+  "e2e: full business workflow through the HTTP API",
+  "security: authorization and injection controls",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "S"]
+ignore = ["B008", "S101", "S311", "E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S105", "S106"]
+"scripts/**" = ["S603", "S607"]
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true
+check_untyped_defs = true

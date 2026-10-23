@@ -1,0 +1,14 @@
+.venv
+**/__pycache__
+**/*.pyc
+.git
+.env
+.env.*
+data
+**/node_modules
+tests
+docs
+apps/portal
+infrastructure
+.github
+*.md

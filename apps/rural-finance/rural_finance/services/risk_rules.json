@@ -1,0 +1,15 @@
+{
+  "version": "finance-risk-rules/1.0.0",
+  "description": "Advisory indicators for agricultural loan review. Thresholds are illustrative for a synthetic POC and must be calibrated by the lending institution before any real use.",
+  "coverage_comfortable": "1.25",
+  "coverage_minimum": "1.00",
+  "production_cost_to_revenue_max": "0.60",
+  "declared_revenue_tolerance_pct": "15",
+  "declared_cost_tolerance_pct": "15",
+  "required_documents": {
+    "farm_business_plan": "Farm business plan or cooperative production plan",
+    "yield_or_sales_evidence": "Evidence of past yields or sales (receipts, cooperative delivery records)",
+    "land_use_evidence": "Evidence of land use or tenancy for the cultivated area"
+  },
+  "excluded_attributes": ["gender", "sex", "age", "date_of_birth", "ethnicity", "religion", "marital_status", "disability", "nationality", "household_size"]
+}

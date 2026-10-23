@@ -1,0 +1,10 @@
+{
+  "version": "project-risk-rules/1.0.0",
+  "description": "Rule-based delay and evidence checks for project monitoring. Thresholds are illustrative for synthetic data.",
+  "schedule_gap_pp_warning": "10",
+  "schedule_gap_pp_high": "15",
+  "cpi_warning": "0.90",
+  "spi_warning": "0.85",
+  "reporting_completeness_min_pct": "80",
+  "indicator_gap_to_expected_pp": "15"
+}
