@@ -212,7 +212,7 @@
     {
       "key": "tenant-b-madagascar-rice",
       "scenario": "Partner organisation B (second tenant): used to prove cross-tenant isolation.",
-      "tenant": "tenant-demo-b", "created_by": "bea.tenantb", "target_status": "DRAFT",
+      "tenant": "tenant-demo-b", "created_by": "bea.tenantb", "target_status": "ANALYZED",
       "payload": {
         "borrower_pseudonym": "BRW-MG3001", "borrower_type": "smallholder_individual",
         "country": "Madagascar", "region": "Alaotra-Mangoro", "locality": "Ambatondrazaka", "latitude": -17.83, "longitude": 48.42,
