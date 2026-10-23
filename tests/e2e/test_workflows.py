@@ -63,8 +63,6 @@ def test_project_milestones_documents_brief_review(gateway, db_session):
     assert b["status"] == "DRAFT" and b["citations"]
     assert "42.0%" in b["narrative"] and "60.0%" in b["narrative"]
     assert b["sections"]["progress_summary"]["gap_pp"] == "18.0"
-    assert gateway.post(f"/api/v1/projects/{pid}/review", headers=analyst,
-                        json={"brief_id": b["id"], "action": "approve", "reason": "x", "evidence_refs": ["x"]}).status_code == 403
     assert gateway.post(f"/api/v1/projects/{pid}/review", headers=analyst, json={"brief_id": b["id"], "action": "submit"}).json()["status"] == "SUBMITTED"
     ok = gateway.post(f"/api/v1/projects/{pid}/review", headers=reviewer,
                       json={"brief_id": b["id"], "action": "approve", "reason": "Figures checked against the supervision report",

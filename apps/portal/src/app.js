@@ -419,7 +419,7 @@
     if (!window.L) { document.getElementById('map').innerHTML = '<p class="muted" style="padding:12px">Map tiles need internet access; the table shows the same data.</p>'; return; }
     if (leaflet) { leaflet.remove(); leaflet = null; }
     leaflet = L.map('map');
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 12, attribution: '&copy; OpenStreetMap contributors' }).addTo(leaflet);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { maxZoom: 12, subdomains: 'abcd', attribution: '&copy; OpenStreetMap contributors &copy; CARTO' }).addTo(leaflet);
     const pts = [];
     data.sites.forEach((s) => {
       const r = 6 + Math.sqrt(s.beneficiaries_target) / 6;

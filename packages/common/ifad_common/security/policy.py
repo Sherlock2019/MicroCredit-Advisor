@@ -33,8 +33,9 @@ AGENT_SCOPES: dict[str, frozenset[str]] = {
 assert not any(scopes & HUMAN_ONLY_PERMISSIONS for scopes in AGENT_SCOPES.values())
 
 
+# POC: every demo account can use every feature. Roles are kept only as labels.
+ALL_HUMAN_PERMISSIONS = frozenset().union(*ROLE_PERMISSIONS.values())
+
+
 def permissions_for_roles(roles: set[str] | frozenset[str]) -> frozenset[str]:
-    granted: set[str] = set()
-    for role in roles:
-        granted |= ROLE_PERMISSIONS.get(role, frozenset())
-    return frozenset(granted)
+    return ALL_HUMAN_PERMISSIONS if any(r in ROLE_PERMISSIONS for r in roles) else frozenset()

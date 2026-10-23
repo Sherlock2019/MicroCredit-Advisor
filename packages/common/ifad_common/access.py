@@ -26,11 +26,9 @@ def _uuid(value: str | uuid.UUID) -> uuid.UUID:
 def accessible_project_ids(db: Session, principal: Principal) -> set[uuid.UUID]:
     if principal.is_agent:
         return {_uuid(principal.scope_id)} if principal.scope_id else set()
-    rows = db.execute(
-        text("SELECT m.project_id FROM projects.project_members m JOIN projects.projects p ON p.id = m.project_id "
-             "WHERE m.subject = :subject AND p.tenant_id = :tenant"),
-        {"subject": principal.subject, "tenant": principal.tenant_id},
-    ).scalars()
+    # POC: every user sees every project in their organisation (no per-project assignment).
+    rows = db.execute(text("SELECT id FROM projects.projects WHERE tenant_id = :tenant"),
+                      {"tenant": principal.tenant_id}).scalars()
     return set(rows)
 
 

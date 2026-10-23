@@ -58,14 +58,13 @@ def test_cross_tenant_access_rejected(gateway, db_session):
     assert gateway.get(f"/api/v1/projects/{tenant_b_project.id}", headers=auth("ana.project")).status_code == 403
 
 
-def test_cross_project_read_rejected(gateway, db_session):
+def test_every_demo_account_can_use_every_feature(gateway, db_session):
     irr = find_project(db_session, "DEMO-IRR-01")
-    mkt = find_project(db_session, "DEMO-MKT-02")
-    assert gateway.get(f"/api/v1/projects/{mkt.id}", headers=auth("omar.project")).status_code == 200
-    assert gateway.get(f"/api/v1/projects/{irr.id}", headers=auth("omar.project")).status_code == 403
-    r = gateway.post("/api/v1/knowledge/query", headers=auth("omar.project"),
-                     json={"question": "causes of construction delay", "scopes": [{"domain": "project", "id": str(irr.id)}]})
-    assert r.status_code == 403
+    app = find_application(db_session, "COOP-A0001")
+    for user in ("fatima.finance", "omar.project", "aude.auditor", "admin.platform"):
+        assert gateway.get(f"/api/v1/projects/{irr.id}", headers=auth(user)).status_code == 200
+        assert gateway.get(f"/api/v1/finance/applications/{app.id}", headers=auth(user)).status_code == 200
+        assert gateway.get("/api/v1/audit/events", headers=auth(user)).status_code == 200
 
 
 def test_documents_never_cross_tenant_in_retrieval(gateway, db_session):
