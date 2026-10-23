@@ -90,7 +90,11 @@ if [ "$OLLAMA" = 1 ]; then
 fi
 
 say "Building and starting containers (first run takes a few minutes)…"
-$COMPOSE up -d --build
+if ! $COMPOSE up -d --build; then
+  echo; say "Startup failed. Last lines of the database migration / seed job:"
+  $COMPOSE logs --no-color --tail=40 migrate || true
+  die "See the error above. If it mentions a password, the database volume was created with an older .env; run ./start.sh reset (deletes demo data) and start again."
+fi
 
 PORT=$(grep -E '^PORTAL_PORT=' .env | cut -d= -f2); PORT=${PORT:-8480}
 say "Waiting for the platform to become ready…"
