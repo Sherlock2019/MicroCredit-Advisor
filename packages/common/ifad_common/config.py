@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     build_version: str = "0.1.0-local"
     commit_sha: str = "uncommitted"
 
-    database_url: str = "postgresql+psycopg://ifad_owner:ifad_owner_dev_only@localhost:55433/ifad_platform"
+    database_url: str = "postgresql+psycopg://ifad_owner@localhost:55433/ifad_platform"
     db_pool_size: int = 5
 
     # --- identity -------------------------------------------------------------------------------------------------

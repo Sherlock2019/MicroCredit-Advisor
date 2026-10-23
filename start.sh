@@ -72,9 +72,7 @@ case "$CMD" in
          $COMPOSE down -v; say "Reset done. Run ./start.sh to start with fresh demo data."; exit 0 ;;
 esac
 
-command -v python3 >/dev/null || die "python3 is required to create .env"
 command -v curl >/dev/null || die "curl is required"
-python3 scripts/make_env.py
 
 PUBLIC_IP=$(ec2_public_ip)
 if [ "$PUBLIC" = auto ]; then
@@ -89,23 +87,6 @@ if [ "$OLLAMA" = 1 ]; then
   say "Using Ollama at ${OLLAMA_BASE_URL:-http://host.docker.internal:11434} (model ${OLLAMA_CHAT_MODEL:-qwen2.5:7b}); embeddings stay on the offline hash model."
 fi
 
-say "Starting the database…"
-$COMPOSE up -d --wait postgres
-# Internal database passwords live only in .env. If .env was ever regenerated, the existing database volume still has
-# the old ones; re-apply the current values (over the container's local socket, which needs no password).
-envval() { grep -E "^$1=" .env | head -1 | cut -d= -f2-; }
-$COMPOSE exec -T postgres psql -q -v ON_ERROR_STOP=1 -U ifad_owner -d ifad_platform >/dev/null <<SQL
-ALTER ROLE ifad_owner PASSWORD '$(envval POSTGRES_OWNER_PASSWORD)';
-DO \$\$ BEGIN
-  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'svc_gateway') THEN CREATE ROLE svc_gateway LOGIN; END IF;
-  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'svc_finance') THEN CREATE ROLE svc_finance LOGIN; END IF;
-  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'svc_projects') THEN CREATE ROLE svc_projects LOGIN; END IF;
-END \$\$;
-ALTER ROLE svc_gateway PASSWORD '$(envval SVC_GATEWAY_DB_PASSWORD)';
-ALTER ROLE svc_finance PASSWORD '$(envval SVC_FINANCE_DB_PASSWORD)';
-ALTER ROLE svc_projects PASSWORD '$(envval SVC_PROJECTS_DB_PASSWORD)';
-SQL
-
 say "Building and starting containers (first run takes a few minutes)…"
 if ! $COMPOSE up -d --build; then
   echo; say "Startup failed. Last lines of the database migration / seed job:"
@@ -113,7 +94,7 @@ if ! $COMPOSE up -d --build; then
   die "See the error above."
 fi
 
-PORT=$(grep -E '^PORTAL_PORT=' .env | cut -d= -f2); PORT=${PORT:-8480}
+PORT=${PORTAL_PORT:-8480}
 say "Waiting for the platform to become ready…"
 for i in $(seq 1 90); do
   if curl -fsS "http://127.0.0.1:${PORT}/portal-health" >/dev/null 2>&1 && \

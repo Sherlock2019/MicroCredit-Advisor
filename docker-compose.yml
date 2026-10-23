@@ -26,8 +26,8 @@ x-common-env: &common-env
   BUILD_VERSION: ${BUILD_VERSION:-0.1.0-local}
   COMMIT_SHA: ${COMMIT_SHA:-uncommitted}
   AUTH_DEV_MODE: ${AUTH_DEV_MODE:-true}
-  AUTH_DEV_JWT_SECRET: ${AUTH_DEV_JWT_SECRET:?set AUTH_DEV_JWT_SECRET in .env}
-  AGENT_TOKEN_SECRET: ${AGENT_TOKEN_SECRET:?set AGENT_TOKEN_SECRET in .env}
+  AUTH_DEV_JWT_SECRET: ${AUTH_DEV_JWT_SECRET:-local-demo-signing-key-not-a-secret-0001}
+  AGENT_TOKEN_SECRET: ${AGENT_TOKEN_SECRET:-local-demo-agent-signing-key-not-a-secret-01}
   OIDC_ISSUER: ${OIDC_ISSUER:-}
   OIDC_JWKS_URL: ${OIDC_JWKS_URL:-}
   OIDC_AUDIENCE: ${OIDC_AUDIENCE:-api://ifad-rural-ai-platform}
@@ -50,15 +50,14 @@ services:
     environment:
       POSTGRES_DB: ifad_platform
       POSTGRES_USER: ifad_owner
-      POSTGRES_PASSWORD: ${POSTGRES_OWNER_PASSWORD:?set POSTGRES_OWNER_PASSWORD in .env}
-      SVC_GATEWAY_DB_PASSWORD: ${SVC_GATEWAY_DB_PASSWORD:?}
-      SVC_FINANCE_DB_PASSWORD: ${SVC_FINANCE_DB_PASSWORD:?}
-      SVC_PROJECTS_DB_PASSWORD: ${SVC_PROJECTS_DB_PASSWORD:?}
+      POSTGRES_HOST_AUTH_METHOD: trust
+    command: ["postgres", "-c", "hba_file=/etc/postgresql/pg_hba.conf"]
     ports:
       - "127.0.0.1:${POSTGRES_HOST_PORT:-55433}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./database/init:/docker-entrypoint-initdb.d:ro
+      - ./database/pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ifad_owner -d ifad_platform"]
       interval: 3s
@@ -74,7 +73,7 @@ services:
     environment:
       <<: *common-env
       SERVICE_NAME: migrate
-      DATABASE_URL: postgresql+psycopg://ifad_owner:${POSTGRES_OWNER_PASSWORD}@postgres:5432/ifad_platform
+      DATABASE_URL: postgresql+psycopg://ifad_owner@postgres:5432/ifad_platform
     volumes:
       - object-store:/data/object-store
     depends_on:
@@ -87,7 +86,7 @@ services:
     environment:
       <<: *common-env
       SERVICE_NAME: rural-finance
-      DATABASE_URL: postgresql+psycopg://svc_finance:${SVC_FINANCE_DB_PASSWORD}@postgres:5432/ifad_platform
+      DATABASE_URL: postgresql+psycopg://svc_finance@postgres:5432/ifad_platform
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request;urllib.request.urlopen('http://127.0.0.1:8401/ready',timeout=3)"]
       interval: 10s
@@ -100,7 +99,7 @@ services:
     environment:
       <<: *common-env
       SERVICE_NAME: project-impact
-      DATABASE_URL: postgresql+psycopg://svc_projects:${SVC_PROJECTS_DB_PASSWORD}@postgres:5432/ifad_platform
+      DATABASE_URL: postgresql+psycopg://svc_projects@postgres:5432/ifad_platform
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request;urllib.request.urlopen('http://127.0.0.1:8402/ready',timeout=3)"]
       interval: 10s
@@ -113,7 +112,7 @@ services:
     environment:
       <<: *common-env
       SERVICE_NAME: api-gateway
-      DATABASE_URL: postgresql+psycopg://svc_gateway:${SVC_GATEWAY_DB_PASSWORD}@postgres:5432/ifad_platform
+      DATABASE_URL: postgresql+psycopg://svc_gateway@postgres:5432/ifad_platform
     ports:
       - "127.0.0.1:${GATEWAY_PORT:-8400}:8400"
     healthcheck:
